@@ -96,26 +96,26 @@ class MenuBarController: NSObject {
             let submenu = NSMenu()
 
             // Current volume
-            let volumeInfo = NSMenuItem(title: "Current: \(Int(device.volume * 100))%", action: nil, keyEquivalent: "")
+            let volumeInfo = NSMenuItem(title: "Current Volume: \(Int(device.volume * 100))%", action: nil, keyEquivalent: "")
             volumeInfo.isEnabled = false
             submenu.addItem(volumeInfo)
 
             submenu.addItem(NSMenuItem.separator())
 
             // Set limit
-            let setLimitItem = NSMenuItem(title: "Set Volume Limit...", action: #selector(showLimitDialog(_:)), keyEquivalent: "")
+            let setLimitItem = NSMenuItem(title: "Set Volume Limit", action: #selector(showLimitDialog(_:)), keyEquivalent: "")
             setLimitItem.target = self
             setLimitItem.representedObject = device
             submenu.addItem(setLimitItem)
 
             // Show current limit if exists
             if let limit = settingsManager.getLimit(for: device.id) {
-                let limitInfo = NSMenuItem(title: "Current Limit: \(Int(limit * 100))%", action: nil, keyEquivalent: "")
+                let limitInfo = NSMenuItem(title: "Current Volume Limit: \(Int(limit * 100))%", action: nil, keyEquivalent: "")
                 limitInfo.isEnabled = false
                 submenu.addItem(limitInfo)
 
                 // Remove limit option
-                let removeLimitItem = NSMenuItem(title: "Remove Limit", action: #selector(removeLimit(_:)), keyEquivalent: "")
+                let removeLimitItem = NSMenuItem(title: "Remove Volume Limit", action: #selector(removeLimit(_:)), keyEquivalent: "")
                 removeLimitItem.target = self
                 removeLimitItem.representedObject = device
                 submenu.addItem(removeLimitItem)
@@ -133,39 +133,68 @@ class MenuBarController: NSObject {
 
         let alert = NSAlert()
         alert.messageText = "Set Volume Limit for \(device.name)"
-        alert.informativeText = "Enter the maximum volume percentage (0-100):"
+        alert.informativeText = "Adjust the slider to set the maximum volume percentage:"
         alert.alertStyle = .informational
 
-        let textField = NSTextField(frame: NSRect(x: 0, y: 0, width: 200, height: 24))
-        textField.placeholderString = "e.g., 75"
+        // Create container view for slider and label
+        let containerView = NSView(frame: NSRect(x: 0, y: 0, width: 300, height: 40))
 
-        // Pre-fill with current limit if exists
+        // Create slider
+        let slider = NSSlider(frame: NSRect(x: 0, y: 10, width: 240, height: 24))
+        slider.minValue = 0
+        slider.maxValue = 100
+        slider.isContinuous = true
+
+        // Pre-fill with current limit if exists, otherwise default to 75
+        let initialValue: Int
         if let currentLimit = settingsManager.getLimit(for: device.id) {
-            textField.stringValue = "\(Int(currentLimit * 100))"
+            initialValue = Int(currentLimit * 100)
+        } else {
+            initialValue = 75
         }
+        slider.integerValue = initialValue
 
-        alert.accessoryView = textField
+        // Create label to show percentage
+        let percentageLabel = NSTextField(frame: NSRect(x: 250, y: 10, width: 50, height: 24))
+        percentageLabel.stringValue = "\(initialValue)%"
+        percentageLabel.isEditable = false
+        percentageLabel.isBordered = false
+        percentageLabel.backgroundColor = .clear
+        percentageLabel.alignment = .left
+
+        // Update label when slider changes
+        slider.target = self
+        slider.action = #selector(sliderValueChanged(_:))
+        slider.tag = percentageLabel.hash // Store label reference in tag for callback
+
+        // Store label in a way we can access it from the action
+        objc_setAssociatedObject(slider, "percentageLabel", percentageLabel, .OBJC_ASSOCIATION_RETAIN)
+
+        containerView.addSubview(slider)
+        containerView.addSubview(percentageLabel)
+
+        alert.accessoryView = containerView
         alert.addButton(withTitle: "Set")
         alert.addButton(withTitle: "Cancel")
 
         let response = alert.runModal()
 
         if response == .alertFirstButtonReturn {
-            if let value = Int(textField.stringValue), value >= 0, value <= 100 {
-                let limitValue = Float(value) / 100.0
-                settingsManager.setLimit(for: device.id, limit: limitValue)
-                audioService.setVolumeLimit(for: device.id, limit: limitValue)
-                settingsManager.saveSettings()
-                refreshDeviceList()
+            let value = slider.integerValue
+            let limitValue = Float(value) / 100.0
+            settingsManager.setLimit(for: device.id, limit: limitValue)
+            audioService.setVolumeLimit(for: device.id, limit: limitValue)
+            settingsManager.saveSettings()
+            refreshDeviceList()
 
-                // Show confirmation
-                showNotification(title: "Limit Set", message: "Volume limit for \(device.name) set to \(value)%")
-            } else {
-                let errorAlert = NSAlert()
-                errorAlert.messageText = "Invalid Input"
-                errorAlert.informativeText = "Please enter a number between 0 and 100."
-                errorAlert.runModal()
-            }
+            // Show confirmation
+            showNotification(title: "Limit Set", message: "Volume limit for \(device.name) set to \(value)%")
+        }
+    }
+
+    @objc func sliderValueChanged(_ sender: NSSlider) {
+        if let label = objc_getAssociatedObject(sender, "percentageLabel") as? NSTextField {
+            label.stringValue = "\(sender.integerValue)%"
         }
     }
 
