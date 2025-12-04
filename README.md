@@ -153,33 +153,6 @@ TinniCap/
 | HDMI/DisplayPort | ✅ | ✅ | Monitor audio supported |
 | Pro Audio Interfaces | ✅ | ⚠️ | Some don't support programmatic control |
 
-## Troubleshooting
-
-<details>
-<summary><strong>App doesn't appear in menubar</strong></summary>
-
-- Check Activity Monitor to see if TinniCap is running
-- Try quitting and relaunching the app
-- Check System Settings → Login Items
-</details>
-
-<details>
-<summary><strong>Volume limits not working</strong></summary>
-
-- Verify the device supports volume control (some pro interfaces don't)
-- Ensure the device is set as the current output device
-- Check that you're in Hard Cap mode (not Warning Only)
-</details>
-
-<details>
-<summary><strong>Device not detected</strong></summary>
-
-- Confirm the device is connected and showing in Sound settings
-- Try disconnecting and reconnecting the device
-- Restart TinniCap
-- Some devices may take a moment to appear after connection
-</details>
-
 ## Contributing
 
 Awesome! Please see [CONTRIBUTING.md](CONTRIBUTING.md) for guidelines.
