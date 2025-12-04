@@ -16,8 +16,9 @@
 ---
 
 ## Why TinniCap?
+I have tinnitus and I couldn't find a reasonable app to limit volume on individual devices, so I decided to create it. Perhaps it helps someone out there.
 
-Protect your hearing by preventing accidentally loud audio. TinniCap sits in your menubar and automatically limits volume on all your audio devices - from built-in speakers to Bluetooth headphones to external monitors.
+TinniCap sits in your menubar and automatically limits volume on all your audio devices - from built-in speakers to Bluetooth headphones to external monitors.
 
 Perfect for:
 - 🎧 Preventing hearing damage from accidentally loud volumes
