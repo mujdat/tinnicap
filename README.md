@@ -1,6 +1,10 @@
 # TinniCap
 
 <div align="center">
+<img width="128" height="128" alt="TinniCap-Icon-1024" src="https://github.com/user-attachments/assets/5baf16fe-05d9-44fc-868e-1d9832be274a" />
+</div>
+
+<div align="center">
 
 ![TinniCap Icon](https://img.shields.io/badge/macOS-13.0+-blue.svg)
 ![Swift](https://img.shields.io/badge/Swift-5.0-orange.svg)
