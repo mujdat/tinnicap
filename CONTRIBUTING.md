@@ -1,6 +1,6 @@
 # Contributing to TinniCap
 
-Thank you for your interest in contributing to TinniCap! We welcome contributions from the community.
+Thank you for your interest in contributing to TinniCap!
 
 ## How to Contribute
 
@@ -14,7 +14,7 @@ If you find a bug, please open an issue with:
 
 ### Suggesting Features
 
-We love new ideas! Please open an issue with:
+Aweome! Please open an issue with:
 - A clear description of the feature
 - The use case and why it would be helpful
 - Any implementation ideas you might have
