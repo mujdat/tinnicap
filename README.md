@@ -155,7 +155,7 @@ TinniCap/
 
 ## Contributing
 
-Awesome! Please see [CONTRIBUTING.md](CONTRIBUTING.md) for guidelines.
+Please see [CONTRIBUTING.md](CONTRIBUTING.md) for guidelines.
 
 ### Quick Contribution Guide
 1. Fork the repository
