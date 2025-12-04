@@ -26,7 +26,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         statusItem = NSStatusBar.system.statusItem(withLength: NSStatusItem.variableLength)
 
         if let button = statusItem?.button {
-            button.image = NSImage(systemSymbolName: "speaker.wave.2.fill", accessibilityDescription: "TinniCap")
+            button.image = NSImage(systemSymbolName: "hat.cap.fill", accessibilityDescription: "TinniCap")
             button.action = #selector(menuBarController?.toggleMenu)
             button.target = menuBarController
         }

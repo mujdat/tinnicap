@@ -13,6 +13,7 @@
 		A10000000000000000000004 /* AudioDeviceService.swift in Sources */ = {isa = PBXBuildFile; fileRef = A20000000000000000000004 /* AudioDeviceService.swift */; };
 		A10000000000000000000005 /* SettingsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = A20000000000000000000005 /* SettingsManager.swift */; };
 		A10000000000000000000006 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A20000000000000000000006 /* Assets.xcassets */; };
+		A10000000000000000000007 /* AppIcon.icns in Resources */ = {isa = PBXBuildFile; fileRef = A20000000000000000000008 /* AppIcon.icns */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -24,6 +25,7 @@
 		A20000000000000000000005 /* SettingsManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsManager.swift; sourceTree = "<group>"; };
 		A20000000000000000000006 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		A20000000000000000000007 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		A20000000000000000000008 /* AppIcon.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = AppIcon.icns; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -54,6 +56,7 @@
 				A20000000000000000000004 /* AudioDeviceService.swift */,
 				A20000000000000000000005 /* SettingsManager.swift */,
 				A20000000000000000000006 /* Assets.xcassets */,
+				A20000000000000000000008 /* AppIcon.icns */,
 				A20000000000000000000007 /* Info.plist */,
 			);
 			path = TinniCap;
@@ -126,6 +129,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				A10000000000000000000006 /* Assets.xcassets in Resources */,
+				A10000000000000000000007 /* AppIcon.icns in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
