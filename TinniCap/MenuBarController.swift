@@ -292,7 +292,7 @@ class MenuBarController: NSObject {
         let alert = NSAlert()
         alert.messageText = "TinniCap"
         alert.informativeText = """
-        Version: 1.0.1
+        Version: 1.0.2
 
         TinniCap is a native macOS menubar application that can limit volume on individual audio devices.
 

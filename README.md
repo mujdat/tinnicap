@@ -6,7 +6,7 @@
 <br>
 
 <div align="center">
-  
+
 ![TinniCap Icon](https://img.shields.io/badge/macOS-13.0+-blue.svg)
 ![Swift](https://img.shields.io/badge/Swift-5.0-orange.svg)
 ![License](https://img.shields.io/badge/license-MIT-green.svg)
@@ -61,7 +61,7 @@ Perfect for:
 
 ### Option 1: Download
 
-Download the latest version, like `TinniCap-1.0.1.zip` from the releases, unzip it and copy the contents of it into your Applications folder.
+Download the latest version, like `TinniCap-1.0.2.zip` from the releases, unzip it and copy the contents of it into your Applications folder.
 
 ### Option 2: Build from Source
 
