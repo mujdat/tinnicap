@@ -18,6 +18,9 @@ class MenuBarController: NSObject {
         settingsManager.loadSettings()
         applyStoredLimits()
 
+        // Load launch at login preference
+        LaunchAtLoginManager.shared.loadSavedPreference()
+
         setupMenu()
 
         // Start monitoring audio devices
@@ -49,6 +52,14 @@ class MenuBarController: NSObject {
         menu.addItem(devicesHeader)
 
         refreshDeviceList()
+
+        menu.addItem(NSMenuItem.separator())
+
+        // Launch at Login
+        let launchAtLoginItem = NSMenuItem(title: "Launch at Login", action: #selector(toggleLaunchAtLogin), keyEquivalent: "")
+        launchAtLoginItem.target = self
+        launchAtLoginItem.state = LaunchAtLoginManager.shared.isEnabled ? .on : .off
+        menu.addItem(launchAtLoginItem)
 
         menu.addItem(NSMenuItem.separator())
 
@@ -226,6 +237,18 @@ class MenuBarController: NSObject {
 
     @objc func toggleMenu() {
         // Menu is automatically shown when status item is clicked
+    }
+
+    @objc func toggleLaunchAtLogin() {
+        let newState = !LaunchAtLoginManager.shared.isEnabled
+        LaunchAtLoginManager.shared.setEnabled(newState)
+        updateLaunchAtLoginMenuState()
+    }
+
+    func updateLaunchAtLoginMenuState() {
+        if let launchAtLoginItem = menu.item(withTitle: "Launch at Login") {
+            launchAtLoginItem.state = LaunchAtLoginManager.shared.isEnabled ? .on : .off
+        }
     }
 
     @objc func quit() {
