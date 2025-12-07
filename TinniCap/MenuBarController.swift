@@ -14,15 +14,15 @@ class MenuBarController: NSObject {
 
         super.init()
 
+        // Load saved settings first
+        settingsManager.loadSettings()
+        applyStoredLimits()
+
         setupMenu()
 
         // Start monitoring audio devices
         audioService.delegate = self
         audioService.startMonitoring()
-
-        // Load saved settings
-        settingsManager.loadSettings()
-        applyStoredLimits()
     }
 
     func setupMenu() {
