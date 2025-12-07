@@ -1,11 +1,12 @@
 # TinniCap
 
 <div align="center">
-<img width="128" height="128" style="margin-bottom:10px;" alt="TinniCap-Icon-1024" src="https://github.com/user-attachments/assets/5baf16fe-05d9-44fc-868e-1d9832be274a" />
+<img width="128" height="128" alt="TinniCap-Icon-1024" src="https://github.com/user-attachments/assets/5baf16fe-05d9-44fc-868e-1d9832be274a" />
 </div>
+<br>
 
 <div align="center">
-
+  
 ![TinniCap Icon](https://img.shields.io/badge/macOS-13.0+-blue.svg)
 ![Swift](https://img.shields.io/badge/Swift-5.0-orange.svg)
 ![License](https://img.shields.io/badge/license-MIT-green.svg)
@@ -60,7 +61,7 @@ Perfect for:
 
 ### Option 1: Download
 
-You find the latest version on the releases section, and directly download .app and just copy it to your applications folder.
+Download the latest version, like `TinniCap-1.0.1.zip` from the releases, unzip it and copy the contents of it into your Applications folder.
 
 ### Option 2: Build from Source
 
