@@ -30,6 +30,11 @@ struct AudioDevice: Hashable, Codable {
         }
     }
 
+    // Stable identifier that persists across device reconnections
+    var stableIdentifier: String {
+        return "\(name)_\(transportType.rawValue)"
+    }
+
     func hash(into hasher: inout Hasher) {
         hasher.combine(id)
     }

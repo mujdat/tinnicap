@@ -136,7 +136,7 @@ class MenuBarController: NSObject {
             submenu.addItem(setLimitItem)
 
             // Show current limit if exists
-            if let limit = settingsManager.getLimit(for: device.id) {
+            if let limit = settingsManager.getLimit(for: device) {
                 let limitInfo = NSMenuItem(title: "Current Volume Limit: \(Int(limit * 100))%", action: nil, keyEquivalent: "")
                 limitInfo.isEnabled = false
                 submenu.addItem(limitInfo)
@@ -174,7 +174,7 @@ class MenuBarController: NSObject {
 
         // Pre-fill with current limit if exists, otherwise default to 75
         let initialValue: Int
-        if let currentLimit = settingsManager.getLimit(for: device.id) {
+        if let currentLimit = settingsManager.getLimit(for: device) {
             initialValue = Int(currentLimit * 100)
         } else {
             initialValue = 75
@@ -209,8 +209,8 @@ class MenuBarController: NSObject {
         if response == .alertFirstButtonReturn {
             let value = slider.integerValue
             let limitValue = Float(value) / 100.0
-            settingsManager.setLimit(for: device.id, limit: limitValue)
-            audioService.setVolumeLimit(for: device.id, limit: limitValue)
+            settingsManager.setLimit(for: device, limit: limitValue)
+            audioService.setVolumeLimit(for: device, limit: limitValue)
             settingsManager.saveSettings()
             refreshDeviceList()
 
@@ -228,8 +228,8 @@ class MenuBarController: NSObject {
     @objc func removeLimit(_ sender: NSMenuItem) {
         guard let device = sender.representedObject as? AudioDevice else { return }
 
-        settingsManager.removeLimit(for: device.id)
-        audioService.removeVolumeLimit(for: device.id)
+        settingsManager.removeLimit(for: device)
+        audioService.removeVolumeLimit(for: device)
         settingsManager.saveSettings()
         refreshDeviceList()
 
@@ -237,8 +237,11 @@ class MenuBarController: NSObject {
     }
 
     func applyStoredLimits() {
-        for (deviceId, limit) in settingsManager.deviceLimits {
-            audioService.setVolumeLimit(for: deviceId, limit: limit)
+        let devices = audioService.getAllAudioDevices()
+        for device in devices {
+            if let limit = settingsManager.getLimit(for: device) {
+                audioService.setVolumeLimit(for: device, limit: limit)
+            }
         }
         audioService.enforcementMode = settingsManager.enforcementMode
     }

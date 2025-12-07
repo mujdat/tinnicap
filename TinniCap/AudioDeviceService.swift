@@ -11,7 +11,7 @@ class AudioDeviceService {
     weak var delegate: AudioDeviceServiceDelegate?
     var enforcementMode: EnforcementMode = .hardCap
 
-    private var volumeLimits: [AudioDeviceID: Float] = [:]
+    private var volumeLimits: [String: Float] = [:]
     private var monitoringTimer: Timer?
     private var currentDevices: [AudioDevice] = []
 
@@ -239,16 +239,16 @@ class AudioDeviceService {
 
     // MARK: - Volume Limiting
 
-    func setVolumeLimit(for deviceID: AudioDeviceID, limit: Float) {
-        volumeLimits[deviceID] = limit
+    func setVolumeLimit(for device: AudioDevice, limit: Float) {
+        volumeLimits[device.stableIdentifier] = limit
     }
 
-    func removeVolumeLimit(for deviceID: AudioDeviceID) {
-        volumeLimits.removeValue(forKey: deviceID)
+    func removeVolumeLimit(for device: AudioDevice) {
+        volumeLimits.removeValue(forKey: device.stableIdentifier)
     }
 
-    func getVolumeLimit(for deviceID: AudioDeviceID) -> Float? {
-        return volumeLimits[deviceID]
+    func getVolumeLimit(for device: AudioDevice) -> Float? {
+        return volumeLimits[device.stableIdentifier]
     }
 
     // MARK: - Monitoring
@@ -266,7 +266,7 @@ class AudioDeviceService {
 
     private func checkVolumeLimits() {
         for device in currentDevices {
-            guard let limit = volumeLimits[device.id],
+            guard let limit = volumeLimits[device.stableIdentifier],
                   let currentVolume = getVolume(for: device.id) else {
                 continue
             }
