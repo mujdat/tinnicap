@@ -276,34 +276,13 @@ class MenuBarController: NSObject {
     func createLaunchAtLoginMenuItem() -> NSMenuItem {
         let menuItem = NSMenuItem()
 
-        // Create container view for label and toggle - wider to match menu width
-        let containerView = NSView(frame: NSRect(x: 0, y: 0, width: 250, height: 24))
+        // Create SwiftUI toggle view
+        let toggleView = LaunchAtLoginToggleView()
+        let hostingView = NSHostingView(rootView: toggleView)
+        hostingView.frame = NSRect(x: 0, y: 0, width: 250, height: 24)
 
-        // Create label
-        let label = NSTextField(frame: NSRect(x: 20, y: 4, width: 140, height: 17))
-        label.stringValue = "Launch at Login"
-        label.isEditable = false
-        label.isBordered = false
-        label.backgroundColor = .clear
-        label.font = NSFont.menuFont(ofSize: 0)
-
-        // Create toggle switch positioned at the far right
-        let toggle = NSSwitch(frame: NSRect(x: 210, y: 3, width: 32, height: 18))
-        toggle.controlSize = .small
-        toggle.state = LaunchAtLoginManager.shared.isEnabled ? .on : .off
-        toggle.target = self
-        toggle.action = #selector(launchAtLoginToggleChanged(_:))
-
-        containerView.addSubview(label)
-        containerView.addSubview(toggle)
-
-        menuItem.view = containerView
+        menuItem.view = hostingView
         return menuItem
-    }
-
-    @objc func launchAtLoginToggleChanged(_ sender: NSSwitch) {
-        let enabled = sender.state == .on
-        LaunchAtLoginManager.shared.setEnabled(enabled)
     }
 
     @objc func showAbout() {
@@ -357,5 +336,46 @@ extension MenuBarController: AudioDeviceServiceDelegate {
             }
             self.refreshDeviceList()
         }
+    }
+}
+
+// Custom blue switch toggle style
+struct BlueSwitchToggleStyle: ToggleStyle {
+    func makeBody(configuration: Configuration) -> some View {
+        HStack {
+            configuration.label
+            Spacer()
+            RoundedRectangle(cornerRadius: 9)
+                .fill(configuration.isOn ? Color.blue : Color.gray.opacity(0.3))
+                .frame(width: 32, height: 18)
+                .overlay(
+                    Circle()
+                        .fill(Color.white)
+                        .frame(width: 14, height: 14)
+                        .offset(x: configuration.isOn ? 7 : -7)
+                        .animation(.spring(response: 0.2, dampingFraction: 0.8), value: configuration.isOn)
+                )
+                .onTapGesture {
+                    configuration.isOn.toggle()
+                }
+        }
+        .frame(maxWidth: .infinity, alignment: .leading)
+    }
+}
+
+// SwiftUI view for the toggle
+struct LaunchAtLoginToggleView: View {
+    @State private var isEnabled = LaunchAtLoginManager.shared.isEnabled
+
+    var body: some View {
+        Toggle("Launch at Login", isOn: $isEnabled)
+            .toggleStyle(BlueSwitchToggleStyle())
+            .font(.system(size: 13))
+            .onChange(of: isEnabled) { newValue in
+                LaunchAtLoginManager.shared.setEnabled(newValue)
+            }
+            .padding(.leading, 20)
+            .padding(.trailing, 10)
+            .frame(width: 250, height: 24, alignment: .leading)
     }
 }
