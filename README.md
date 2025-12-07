@@ -1,7 +1,7 @@
 # TinniCap
 
 <div align="center">
-<img width="128" height="128" alt="TinniCap-Icon-1024" src="https://github.com/user-attachments/assets/5baf16fe-05d9-44fc-868e-1d9832be274a" />
+<img width="128" height="128" style="margin-bottom:10px;" alt="TinniCap-Icon-1024" src="https://github.com/user-attachments/assets/5baf16fe-05d9-44fc-868e-1d9832be274a" />
 </div>
 
 <div align="center">
@@ -58,7 +58,11 @@ Perfect for:
 
 ## Installation
 
-### Option 1: Build from Source
+### Option 1: Download
+
+You find the latest version on the releases section, and directly download .app and just copy it to your applications folder.
+
+### Option 2: Build from Source
 
 ```bash
 # Clone the repository
@@ -77,7 +81,7 @@ open TinniCap.xcodeproj
 cp -r ./build/Build/Products/Release/TinniCap.app /Applications/
 ```
 
-### Option 2: Using Xcode Command Line
+### Option 3: Using Xcode Command Line
 
 ```bash
 xcodebuild -project TinniCap.xcodeproj \
@@ -173,8 +177,8 @@ Please see [CONTRIBUTING.md](CONTRIBUTING.md) for guidelines.
 
 Future enhancements planned:
 
-- [ ] Launch at login option
-- [ ] Slider instead of percentage input
+- [x] Launch at login option
+- [x] Slider instead of percentage input
 - [ ] Decibel-accurate measurements (vs. percentage)
 - [ ] Per-app volume limiting
 
