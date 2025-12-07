@@ -68,13 +68,16 @@ class MenuBarController: NSObject {
 
         menu.addItem(NSMenuItem.separator())
 
-        // Launch at Login
-        let launchAtLoginItem = NSMenuItem(title: "Launch at Login", action: #selector(toggleLaunchAtLogin), keyEquivalent: "")
-        launchAtLoginItem.target = self
-        launchAtLoginItem.state = LaunchAtLoginManager.shared.isEnabled ? .on : .off
+        // Launch at Login (with toggle switch)
+        let launchAtLoginItem = createLaunchAtLoginMenuItem()
         menu.addItem(launchAtLoginItem)
 
         menu.addItem(NSMenuItem.separator())
+
+        // About
+        let aboutItem = NSMenuItem(title: "About TinniCap", action: #selector(showAbout), keyEquivalent: "")
+        aboutItem.target = self
+        menu.addItem(aboutItem)
 
         // Quit
         let quitItem = NSMenuItem(title: "Quit", action: #selector(quit), keyEquivalent: "q")
@@ -270,15 +273,59 @@ class MenuBarController: NSObject {
         // Menu is automatically shown when status item is clicked
     }
 
-    @objc func toggleLaunchAtLogin() {
-        let newState = !LaunchAtLoginManager.shared.isEnabled
-        LaunchAtLoginManager.shared.setEnabled(newState)
-        updateLaunchAtLoginMenuState()
+    func createLaunchAtLoginMenuItem() -> NSMenuItem {
+        let menuItem = NSMenuItem()
+
+        // Create container view for label and toggle - wider to match menu width
+        let containerView = NSView(frame: NSRect(x: 0, y: 0, width: 250, height: 24))
+
+        // Create label
+        let label = NSTextField(frame: NSRect(x: 20, y: 4, width: 140, height: 17))
+        label.stringValue = "Launch at Login"
+        label.isEditable = false
+        label.isBordered = false
+        label.backgroundColor = .clear
+        label.font = NSFont.menuFont(ofSize: 0)
+
+        // Create toggle switch positioned at the far right
+        let toggle = NSSwitch(frame: NSRect(x: 210, y: 3, width: 32, height: 18))
+        toggle.controlSize = .small
+        toggle.state = LaunchAtLoginManager.shared.isEnabled ? .on : .off
+        toggle.target = self
+        toggle.action = #selector(launchAtLoginToggleChanged(_:))
+
+        containerView.addSubview(label)
+        containerView.addSubview(toggle)
+
+        menuItem.view = containerView
+        return menuItem
     }
 
-    func updateLaunchAtLoginMenuState() {
-        if let launchAtLoginItem = menu.item(withTitle: "Launch at Login") {
-            launchAtLoginItem.state = LaunchAtLoginManager.shared.isEnabled ? .on : .off
+    @objc func launchAtLoginToggleChanged(_ sender: NSSwitch) {
+        let enabled = sender.state == .on
+        LaunchAtLoginManager.shared.setEnabled(enabled)
+    }
+
+    @objc func showAbout() {
+        let alert = NSAlert()
+        alert.messageText = "TinniCap"
+        alert.informativeText = """
+        Version: 1.0.0
+
+        TinniCap is a native macOS menubar application that can limit volume on individual audio devices.
+
+        Author: Müjdat Korkmaz
+        """
+        alert.alertStyle = .informational
+        alert.addButton(withTitle: "OK")
+        alert.addButton(withTitle: "Visit GitHub")
+
+        let response = alert.runModal()
+        if response == .alertSecondButtonReturn {
+            // Open GitHub link
+            if let url = URL(string: "https://github.com/mujdat/tinnicap") {
+                NSWorkspace.shared.open(url)
+            }
         }
     }
 
