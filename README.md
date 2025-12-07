@@ -61,7 +61,28 @@ Perfect for:
 
 ### Option 1: Download
 
-Download the latest version, like `TinniCap-1.0.2.zip` from the releases, unzip it and copy the contents of it into your Applications folder.
+1. Download the latest version (e.g., `TinniCap-1.0.2.zip`) from the [releases page](https://github.com/mujdat/tinnicap/releases)
+2. Unzip the file
+3. Move `TinniCap.app` to your Applications folder
+4. **First launch:** Since the app isn't signed with an Apple Developer certificate, macOS Gatekeeper will block it. Use one of these methods:
+
+   **Method A: Right-click to open**
+   - Right-click (or Control-click) on `TinniCap.app`
+   - Select "Open" from the menu
+   - Click "Open" in the security dialog
+   - The app will now run normally going forward
+
+   **Method B: System Settings**
+   - Try to open the app normally
+   - Open System Settings → Privacy & Security
+   - Scroll down to find "TinniCap was blocked from use"
+   - Click "Open Anyway"
+   - Confirm by clicking "Open"
+
+   **Method C: Remove quarantine attribute (Terminal)**
+   ```bash
+   xattr -cr /Applications/TinniCap.app
+   ```
 
 ### Option 2: Build from Source
 
