@@ -1,5 +1,6 @@
 import Cocoa
 import SwiftUI
+import UserNotifications
 
 class MenuBarController: NSObject {
     var menu: NSMenu
@@ -21,11 +22,23 @@ class MenuBarController: NSObject {
         // Load launch at login preference
         LaunchAtLoginManager.shared.loadSavedPreference()
 
+        // Request notification permissions
+        requestNotificationPermissions()
+
         setupMenu()
 
         // Start monitoring audio devices
         audioService.delegate = self
         audioService.startMonitoring()
+    }
+
+    func requestNotificationPermissions() {
+        let center = UNUserNotificationCenter.current()
+        center.requestAuthorization(options: [.alert, .sound]) { granted, error in
+            if let error = error {
+                print("Error requesting notification permissions: \(error)")
+            }
+        }
     }
 
     func setupMenu() {
@@ -228,11 +241,29 @@ class MenuBarController: NSObject {
     }
 
     func showNotification(title: String, message: String) {
-        let notification = NSUserNotification()
-        notification.title = title
-        notification.informativeText = message
-        notification.soundName = NSUserNotificationDefaultSoundName
-        NSUserNotificationCenter.default.deliver(notification)
+        let content = UNMutableNotificationContent()
+        content.title = title
+        content.body = message
+        content.sound = .default
+
+        // Create a trigger that fires immediately
+        let trigger = UNTimeIntervalNotificationTrigger(timeInterval: 0.1, repeats: false)
+
+        // Create unique identifier for the notification
+        let identifier = UUID().uuidString
+        let request = UNNotificationRequest(identifier: identifier, content: content, trigger: trigger)
+
+        // Add the notification request
+        UNUserNotificationCenter.current().add(request) { error in
+            if let error = error {
+                print("Error showing notification: \(error)")
+            }
+
+            // Auto-dismiss after 3 seconds
+            DispatchQueue.main.asyncAfter(deadline: .now() + 3.0) {
+                UNUserNotificationCenter.current().removeDeliveredNotifications(withIdentifiers: [identifier])
+            }
+        }
     }
 
     @objc func toggleMenu() {
