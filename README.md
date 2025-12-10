@@ -1,7 +1,7 @@
 # TinniCap
 
 <div align="center">
-<img width="128" height="128" alt="TinniCap-Icon-1024" src="https://github.com/user-attachments/assets/5baf16fe-05d9-44fc-868e-1d9832be274a" />
+<img width="256" height="256" alt="icon_256x256@2x" src="https://github.com/user-attachments/assets/0099a75f-532c-4e8b-a2d7-573e084e23b2" />
 </div>
 <br>
 
