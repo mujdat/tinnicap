@@ -254,7 +254,7 @@ class AudioDeviceService {
     // MARK: - Monitoring
 
     func startMonitoring() {
-        monitoringTimer = Timer.scheduledTimer(withTimeInterval: 0.5, repeats: true) { [weak self] _ in
+        monitoringTimer = Timer.scheduledTimer(withTimeInterval: 0.1, repeats: true) { [weak self] _ in
             self?.checkVolumeLimits()
         }
     }
