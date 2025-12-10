@@ -253,7 +253,7 @@ class MenuBarController: NSObject {
         let content = UNMutableNotificationContent()
         content.title = title
         content.body = message
-        content.sound = .default
+        // No sound for notifications
 
         // Create a trigger that fires immediately
         let trigger = UNTimeIntervalNotificationTrigger(timeInterval: 0.1, repeats: false)
