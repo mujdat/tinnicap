@@ -5,11 +5,9 @@ class SettingsManager {
     private let defaults = UserDefaults.standard
     private let deviceLimitsKey = "deviceLimits"
     private let enforcementModeKey = "enforcementMode"
-    private let notificationCooldownKey = "notificationCooldown"
 
     var deviceLimits: [String: Float] = [:]
     var enforcementMode: EnforcementMode = .hardCap
-    var notificationCooldownPeriod: TimeInterval = 30.0 // Default: 30 seconds
 
     func loadSettings() {
         // Load device limits
@@ -23,12 +21,6 @@ class SettingsManager {
            let mode = EnforcementMode(rawValue: modeString) {
             enforcementMode = mode
         }
-
-        // Load notification cooldown period
-        let cooldown = defaults.double(forKey: notificationCooldownKey)
-        if cooldown > 0 {
-            notificationCooldownPeriod = cooldown
-        }
     }
 
     func saveSettings() {
@@ -39,9 +31,6 @@ class SettingsManager {
 
         // Save enforcement mode
         defaults.set(enforcementMode.rawValue, forKey: enforcementModeKey)
-
-        // Save notification cooldown period
-        defaults.set(notificationCooldownPeriod, forKey: notificationCooldownKey)
 
         defaults.synchronize()
     }

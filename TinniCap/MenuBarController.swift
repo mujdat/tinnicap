@@ -8,9 +8,6 @@ class MenuBarController: NSObject {
     var settingsManager: SettingsManager
     var deviceMenuItems: [AudioDevice: NSMenuItem] = [:]
 
-    // Notification throttling
-    private var lastNotificationTime: [String: Date] = [:]
-
     override init() {
         self.menu = NSMenu()
         self.audioService = AudioDeviceService()
@@ -329,34 +326,7 @@ extension MenuBarController: AudioDeviceServiceDelegate {
 
     func volumeLimitExceeded(for device: AudioDevice, attemptedVolume: Float, limit: Float) {
         DispatchQueue.main.async {
-            // Check if we should throttle this notification
-            let deviceIdentifier = device.stableIdentifier
-            let now = Date()
-
-            // Only show notification if cooldown period has elapsed
-            if let lastTime = self.lastNotificationTime[deviceIdentifier] {
-                let timeSinceLastNotification = now.timeIntervalSince(lastTime)
-                if timeSinceLastNotification < self.settingsManager.notificationCooldownPeriod {
-                    // Still in cooldown period, skip notification
-                    return
-                }
-            }
-
-            // Update last notification time
-            self.lastNotificationTime[deviceIdentifier] = now
-
-            // Show the notification
-            if self.settingsManager.enforcementMode == .warning {
-                self.showNotification(
-                    title: "Volume Limit Warning",
-                    message: "\(device.name) volume (\(Int(attemptedVolume * 100))%) exceeds limit of \(Int(limit * 100))%"
-                )
-            } else {
-                self.showNotification(
-                    title: "Volume Limited",
-                    message: "\(device.name) volume capped at \(Int(limit * 100))%"
-                )
-            }
+            // Just refresh the device list to show current volume, no notification
             self.refreshDeviceList()
         }
     }
