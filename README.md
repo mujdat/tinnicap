@@ -61,7 +61,7 @@ Perfect for:
 
 ### Option 1: Download
 
-1. Download the latest version (e.g., `TinniCap-1.0.2.zip`) from the [releases page](https://github.com/mujdat/tinnicap/releases)
+1. Download the latest version (e.g., `TinniCap-1.0.4.zip`) from the [releases page](https://github.com/mujdat/tinnicap/releases)
 2. Unzip the file
 3. Move `TinniCap.app` to your Applications folder
 4. **First launch:** Since the app isn't signed with an Apple Developer certificate, macOS Gatekeeper will block it. Use one of these methods:
